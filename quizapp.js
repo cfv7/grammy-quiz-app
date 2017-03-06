@@ -118,5 +118,5 @@ function drawCard(state, position){
 
 drawCard(qBank, 1);
 
-
+qqq
 
