@@ -22,12 +22,12 @@
 // Functions: addPoints, updatePosition
 
 //3- CREATE RENDER / LOGIC FUNCTIONS
-// Draw Card - Render Questions to Dom.	
+// Draw Card - Render Questions to Dom.
 // Display what currentCard they are on.
 // Display numCorr and numIncorr.
 // Get usersAnswer
 // Check answer isCorrect
-// Display Response  "Correct / Incorrect" 
+// Display Response  "Correct / Incorrect"
 // Display Correct Answer
 // Display nextButton.
 
@@ -43,7 +43,7 @@
 // Should have questions, answer choices, and correct answer
 // Store user's correct answer count and wrong answer count., current question number e.g. 3/10
 var qBank = {
-	questions:[ 
+	questions:[
 		{
 			q: "At the 59th Annual Grammy Awards(2017), who won Record Of The Year?",
 			a: ["a. Twenty One Pilots", "b. Rihanna", "c. Beyonce", "d. Adele"],
@@ -53,7 +53,7 @@ var qBank = {
 			q: "At the 59th Grammy Awards(2017), who won best new Artist?",
 			a: ["a. Anderson Paak", "b. Chance the Rapper", "c. Kelsea Ballerina", "d. The Chainsmokers"],
 			correct: 1
-		},	
+		},
 		{
 			q: "What was the Best Dance / Electronic Album at the 59th Grammy Awards(2017)?",
 			a: ["a. Louie Vega Starring XXVIII - Louie Vega", "b. Skin - Flume", "c. Epoch - Tyco", "d. Barbara Barbara, We Face a Shining Future - Underworld"],
@@ -102,21 +102,37 @@ function updatePosition(state){
 // Display Correct Answer[ally]
 // Display nextButton. [ally]
 function drawCard(state, position){
-	let indexP = position-1; //change position from index to normal 
+	let indexP = position-1; //change position from index to normal
 	state.questions[indexP].q;
 	state.questions[indexP].a;
 	$(".card").html(state.questions[indexP].q);
 	$(".card").append(`<ol>`);
 	for (i=0; i<state.questions[indexP].a.length; i++) {
-		$(".card").append(`<li>${state.questions[indexP].a[i]}</li>`);
+		$(".card").append(`<li id="js-answer-${i}">${state.questions[indexP].a[i]}</li>`);
 	}
 	$(".card").append(`</ol><br>`);
 	$(".card").append(position + " of " + state.questions.length);
-	$(".card").append(updatePosition())
+	$(".card").append(updatePosition(state));
 }
 
+function checkAnswer(state, position, answer){
+	let indexP = position -1;
+	return answer===state.questions[indexP].correct;
+}
 
-drawCard(qBank, 1);
+function displayAnswer(state, position){
+	let indexP = position -1;
+	let className='#js-answer-'+state.questions[indexP].correct;
+	$(className).addClass('js-answer-highlight');
+}
 
+function displayNext(){
+	$(".card").append(`<button type="button">NEXT</button>`);
 
+}
 
+//test functions here.
+// drawCard(qBank, 1);
+// checkAnswer(qBank, 1, 3);
+// displayAnswer(qBank, 1);
+// displayNext();
