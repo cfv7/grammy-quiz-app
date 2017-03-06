@@ -13,9 +13,7 @@
 
 //1- CREATE QUESTIONS OBJECT
 // Should have questions, answer choices, and correct answer
-
-//1b- CREATE STATE OBJECT
-// Create object for storing user's points, current question number e.g. 3/10
+// Store user's correct answer count and wrong answer count., current question number e.g. 3/10
 
 //2- CREATE STATE MODIFICATION FUNCTIONS
 // Should have functions to add and update points and current question.
@@ -37,3 +35,4 @@
 // Display the question card.
 // When users click on answer buttons,check if correct. display correct Answer. Show next button.
 
+qqq
