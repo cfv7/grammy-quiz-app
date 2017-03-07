@@ -71,7 +71,7 @@ var qBank = {
 		}
 	],
 	score: {numCorr:0, numIncorr:0},
-	position: 0
+	position: -1
 }
 
 //2- CREATE STATE MODIFICATION FUNCTIONS
@@ -104,6 +104,8 @@ function updatePosition(state){
 function drawCard(state){
 	// let indexP = state.position-1; //change position from index to normal 
 	let position = state.position;
+	$(".correctOrNot").html('');
+	$(".totals").html('');
 	$(".card").html(state.questions[position].q);
 	$(".card").append(`<ol>`);
 	for (i=0; i<state.questions[position].a.length; i++) {
@@ -116,7 +118,7 @@ function drawCard(state){
 
 function checkAnswer(state, position, answer){
 	let indexP = position -1;
-	return answer===state.questions[indexP].correct;
+	return answer===state.questions[position].correct;
 }
 
 function displayAnswer(state, position){
@@ -126,34 +128,47 @@ function displayAnswer(state, position){
 }
 
 function displayNext(){
-$(".next").css('display', 'block');
+	$(".next").css('display', 'block');
 }
 
+function listenForClick(){
 $("body").on("click", ".card > li", function(event){
 	var getId = $(event.currentTarget).attr("answer-id");
-
 	if (getId == qBank.questions[qBank.position].correct) {
-		console.log(true)
+		console.log(true);
+		countUpCorr(qBank);
+		$(".correctOrNot").append(`<span class="correct"> Correct!!! </span>`)
 	}
 	else {
-		console.log(false)
+		console.log(false);
+		countUpIncorr(qBank);
+		$(".correctOrNot").append(`<span class="incorrect"> Incorrect. </span>`)
 	}
-	
-	displayNext();
-		return 	
-		$('.card > li').off();
-	// return;
+		$(".totals").append(`<span class="correct"> Correct: ${qBank.score.numCorr} </span> <span class="incorrect"> Incorrect: ${qBank.score.numIncorr} </span>`)
+		console.log(qBank.score.numCorr, qBank.score.numIncorr)
+		displayNext();	
+		$("body").off("click", ".card > li");
+})
+}
+
+$('.card').on("click", '.next', function(event){
+	updatePosition(qBank);
+	drawCard(qBank);
+	listenForClick();		
 })
 
-$('.card').on("click", 'button', function(event){
-	// event.stopPropagation();
-			console.log(event.target); 
-			updatePosition(qBank);
-			drawCard(qBank);		
-});
+function splashScreen(){
+	$('.card').html(`<h1 class="splashTitle">Do You Know the Grammys?!</h1>`)
+	$('.card').append(`<button class="splashButton"> Start Quiz </button> `)
+}
+$(".card").on('click', ".splashButton", function(event){
+	drawCard(qBank);
+})
 
 //test functions here.
-drawCard(qBank);
+listenForClick();
+splashScreen()
+// drawCard(qBank);
 // checkAnswer(qBank, 1, 3);
 // displayAnswer(qBank, 1);
 
