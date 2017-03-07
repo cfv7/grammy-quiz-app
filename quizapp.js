@@ -102,43 +102,58 @@ function updatePosition(state){
 // Display Correct Answer[ally]
 // Display nextButton. [ally]
 function drawCard(state){
-	// let indexP = position-1; //change position from index to normal 
+	// let indexP = state.position-1; //change position from index to normal 
 	let position = state.position;
-	state.questions[position].q;
-	state.questions[position].a;
 	$(".card").html(state.questions[position].q);
 	$(".card").append(`<ol>`);
 	for (i=0; i<state.questions[position].a.length; i++) {
 		$(".card").append(`<li answer-id="${i}" class="js-answer-${i}">${state.questions[position].a[i]}</li>`);
 	}
 	$(".card").append(`</ol><br>`);
-	$(".card").append(position + " of " + state.questions.length);
+	$(".card").append(`<button class="next" type="button">NEXT</button>`);
+	$(".card").append((position+1) + " of " + state.questions.length);
 }// render question card w/ possible answers & q number
 
-drawCard(qBank, 1);
+function checkAnswer(state, position, answer){
+	let indexP = position -1;
+	return answer===state.questions[indexP].correct;
+}
+
+function displayAnswer(state, position){
+	let indexP = position -1;
+	let className='#js-answer-'+state.questions[indexP].correct;
+	$(className).addClass('js-answer-highlight');
+}
+
+function displayNext(){
+$(".next").css('display', 'block');
+}
 
 $("body").on("click", ".card > li", function(event){
 	var getId = $(event.currentTarget).attr("answer-id");
+
 	if (getId == qBank.questions[qBank.position].correct) {
 		console.log(true)
 	}
 	else {
 		console.log(false)
 	}
-	updatePosition(qBank);
-	drawCard(qBank);
+	
+	displayNext();
+		return 	
+		$('.card > li').off();
+	// return;
 })
 
+$('.card').on("click", 'button', function(event){
+	// event.stopPropagation();
+			console.log(event.target); 
+			updatePosition(qBank);
+			drawCard(qBank);		
+});
 
-// function userAnswer(domElement, userChoice){
-// 	let userChoice = state.questions[position].a[i];
-// 	console.log(userChoice)
-
-// }
-
-// `<li class="js-answer-${i}">${state.questions[indexP].a[i]}</li>`
-// // function rightOrWrong(){
-// // 	let user
-// // }
-
+//test functions here.
+drawCard(qBank);
+// checkAnswer(qBank, 1, 3);
+// displayAnswer(qBank, 1);
 
