@@ -77,7 +77,7 @@ var qBank = {
 		{
 			q: "In this list, who has won a Grammy?",
 			a: ["Katie Perry", "Brian McKnight", "Jimi Hendrix", "Fiona Apple"],
-			correct: 4
+			correct: 3
 		},
 		{
 			q: "In which year did Daft Punk win 4 grammy’s",
@@ -145,8 +145,7 @@ function checkAnswer(state, position, answer){
 }
 
 function displayAnswer(state, position){
-	let indexP = position -1;
-	let className='#js-answer-'+state.questions[indexP].correct;
+	let className='.js-answer-'+state.questions[qBank.position].correct;
 	$(className).addClass('js-answer-highlight');
 }
 
@@ -162,15 +161,16 @@ $("body").on("click", ".card > li", function(event){
 	if (getId == qBank.questions[qBank.position].correct) {
 		console.log(true);
 		countUpCorr(qBank);
-		$(".correctOrNot").append(`<h3 class="correct"> Correct!!! </h3>`);
+		$(event.currentTarget).append(`<h3 class="correct"> Correct!!! </h3>`);
 	}
 	else {
 		console.log(false);
 		countUpIncorr(qBank);
-		$(".correctOrNot").append(`<h3 class="incorrect"> Incorrect. </h3>`);
+		$(event.currentTarget).append(`<h3 class="incorrect"> Incorrect. </h3>`);
 	}
 	$(".totals").append(`<span class="correct"> Correct: ${qBank.score.numCorr} </span> <span class="incorrect"> Incorrect: ${qBank.score.numIncorr} </span>`);
 	console.log(qBank.score.numCorr, qBank.score.numIncorr);
+	displayAnswer(qBank, getId);
 	displayNext();
 	$("body").off("click", ".card > li");
 });
@@ -186,9 +186,22 @@ $('.card').on("click", '.next', function(event){
 		$('.correctOrNot').html('');  //clear correct or not div
 		$('.totals').html('');        //clear points
 		$('.card').html(`<h1>GAME OVER!</h1><p>You got ${qBank.score.numCorr} correct!</p>`);
-	}
+		$('.card').append(`<button class="restartButton"> Restart Quiz </button> `);
+		$(".card").on('click', ".restartButton", function(event){
+			restart();
+	});
+}
 
 });
+
+// reset card order + scores
+function restart(){
+	qBank.position = 0;
+	qBank.score = {numCorr:0, numIncorr:0};
+	splashScreen();
+	listenForClick();
+	// console.log(qBank.questions.postion, qBank.questions.score)
+}
 
 //splashScreen display
 function splashScreen(){
