@@ -1,3 +1,4 @@
+/*------------------------------------------------------------------------------------------------*/
 // names: Colin & Ally
 // date: 3.6.17
 // project: Quiz App
@@ -13,15 +14,15 @@
 //  final card w/ number correct and start new game button
 /*------------------------------------------------------------------------------------------------*/
 
-//1- CREATE QUESTIONS OBJECT
+// 1~CREATE QUESTIONS OBJECT
 // Should have questions, answer choices, and correct answer
 // Store user's correct answer count and wrong answer count., current question number e.g. 3/10
 
-//2- CREATE STATE MODIFICATION FUNCTIONS
+// 2~CREATE STATE MODIFICATION FUNCTIONS
 // Should have functions to add and update points and current question.
 // Functions: addPoints, updatePosition
 
-//3- CREATE RENDER / LOGIC FUNCTIONS
+// 3~CREATE RENDER / LOGIC FUNCTIONS
 // Draw Card - Render Questions to Dom.	
 // Display what currentCard they are on.
 // Display numCorr and numIncorr.
@@ -31,13 +32,12 @@
 // Display Correct Answer
 // Display nextButton.
 
-//4- CREATE EVENT LISTENERS
+// 4~CREATE EVENT LISTENERS
 // Display start card.
 // When users click on start button, advance to question card
 // Display the question card.
 // When users click on answer buttons,check if correct. display correct Answer. Show next button.
 /*------------------------------------------------------------------------------------------------*/
-
 
 //1- CREATE QUESTIONS OBJECT
 // Should have questions, answer choices, and correct answer
@@ -89,11 +89,11 @@ function countUpIncorr(state){
 
 function updatePosition(state){
 	state.position++;
-	console.log(state.position);
+	// console.log(state.position);
 }// add 1 to position
 
 //3- CREATE RENDER / LOGIC FUNCTIONS
-// Draw Card - Render Questions to Dom.	[done]
+// Draw Card - Render Questions to Dom.	[  ]
 // Display what currentCard they are on. [done]
 // Display numCorr and numIncorr. [done]
 // Get usersAnswer [colin]
@@ -101,22 +101,44 @@ function updatePosition(state){
 // Display Response  "Correct / Incorrect" [colin]
 // Display Correct Answer[ally]
 // Display nextButton. [ally]
-function drawCard(state, position){
-	let indexP = position-1; //change position from index to normal 
-	state.questions[indexP].q;
-	state.questions[indexP].a;
-	$(".card").html(state.questions[indexP].q);
+function drawCard(state){
+	// let indexP = position-1; //change position from index to normal 
+	let position = state.position;
+	state.questions[position].q;
+	state.questions[position].a;
+	$(".card").html(state.questions[position].q);
 	$(".card").append(`<ol>`);
-	for (i=0; i<state.questions[indexP].a.length; i++) {
-		$(".card").append(`<li>${state.questions[indexP].a[i]}</li>`);
+	for (i=0; i<state.questions[position].a.length; i++) {
+		$(".card").append(`<li answer-id="${i}" class="js-answer-${i}">${state.questions[position].a[i]}</li>`);
 	}
 	$(".card").append(`</ol><br>`);
 	$(".card").append(position + " of " + state.questions.length);
-	$(".card").append(updatePosition())
-}
-
+}// render question card w/ possible answers & q number
 
 drawCard(qBank, 1);
 
-qqq
+$("body").on("click", ".card > li", function(event){
+	var getId = $(event.currentTarget).attr("answer-id");
+	if (getId == qBank.questions[qBank.position].correct) {
+		console.log(true)
+	}
+	else {
+		console.log(false)
+	}
+	updatePosition(qBank);
+	drawCard(qBank);
+})
+
+
+// function userAnswer(domElement, userChoice){
+// 	let userChoice = state.questions[position].a[i];
+// 	console.log(userChoice)
+
+// }
+
+// `<li class="js-answer-${i}">${state.questions[indexP].a[i]}</li>`
+// // function rightOrWrong(){
+// // 	let user
+// // }
+
 
