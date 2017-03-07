@@ -61,7 +61,7 @@ var questionBank = {
 		},
 		{
 			question: "How many Grammys has Drake won?",
-			answer: ["1", "2", "3", "0"],
+			answer: ["One", "Two", "Three", "None"],
 			correct: 2
 		},
 		{
@@ -133,9 +133,10 @@ function drawCard(state){
 		$(".card").append(`<li answer-id="${i}" class="js-answer-${i}">${state.questions[state.position].answer[i]}</li>`);
 	}
 	$(".card").append(`</ol><br>`);
-	$(".card").append(`<button class="next" type="button">NEXT</button>`);
+	$(".card").append(`<button class="next styledButton" type="button">NEXT</button>`);
 	$(".status").html((state.position+1) + " of " + state.questions.length);
 	console.log(state);
+	$(".totals").append(`<span> Correct: ${questionBank.score.numCorr} </span> <span> Incorrect: ${questionBank.score.numIncorr} </span>`);
 }// render question card w/ possible answers & q number
 
 function checkAnswer(state, position, answer){
@@ -168,7 +169,6 @@ $("body").on("click", ".card > li", function(event){
 		$(event.currentTarget).append(`<h3 class="incorrect"> Incorrect. </h3>`);
 		$(event.currentTarget).css('color', '#ccc');
 	}
-	$(".totals").append(`<span> Correct: ${questionBank.score.numCorr} </span> <span> Incorrect: ${questionBank.score.numIncorr} </span>`);
 	console.log(questionBank.score.numCorr, questionBank.score.numIncorr);
 	displayAnswer(questionBank, getId);
 	displayNext();
@@ -185,7 +185,7 @@ $('.card').on("click", '.next', function(event){
 	} else {
 		$('.totals').html('');        //clear points
 		$('.card').html(`<div class="finalcard"><h1>Thanks for playing!</h1><img src="grammy_logo.png" alt="Grammy Award"><p>You got ${questionBank.score.numCorr} correct!</p></div>`);
-		$('.card').append(`<button class="restartButton"> Restart Quiz </button> `);
+		$('.card').append(`<button class="restartButton styledButton"> Restart Quiz </button> `);
 		$(".card").on('click', ".restartButton", function(event){
 			restart();
 	});
@@ -204,7 +204,7 @@ function restart(){
 //splashScreen display
 function splashScreen(){
 	$('.card').html(`<h1 class="splashTitle">Do You Know the Grammys?!</h1>`);
-	$('.card').append(`<button class="splashButton"> Start Quiz </button> `);
+	$('.card').append(`<button class="splashButton styledButton"> Start Quiz </button> `);
 }
 $(".card").on('click', ".splashButton", function(event){
 	drawCard(questionBank);
