@@ -1,9 +1,11 @@
 body {
-	font-family: "Roboto", Arial, sans-serif;;
+	font-family: "Roboto", Arial, sans-serif;
 }
 .card {
 	width: 77%;
 	margin: 20px auto;
+	height: 70%;
+	
 }
 
 .card h1, h2 {
@@ -25,10 +27,12 @@ li:hover {
 	background-color: #c9a74c;
 	cursor: pointer;
 	color: #3c3c3c;
+	border: 1px solid #9e844a;
 }
 button {
 	width: 100%;
 	height: 50px;
+
 }
 
 h3 {
@@ -39,11 +43,21 @@ h3 {
     top:0;
     left:0px;
 }
-.correctOrNot {
-	text-align: center;
+.splashButton {
+	margin-top:170px	;
 }
-
+.incorrect {
+	color: black;
+}
+.status {
+	text-align:right;
+	padding: 20px;
+	margin-top: 30px;
+}
 .totals {
+	position: absolute;
+	width: 100%;
+	top: 0px;
 	color: #c9a74c;
 	background-color: #3c3c3c;
 	text-align: center;
@@ -55,4 +69,14 @@ h3 {
 	font-style: bold;
 	background-color: #3c3c3c;
 	color: #c9a74c;
+}
+
+.finalcard p{
+  text-align: center;
+}
+
+.finalcard img {
+	display: block;
+  width: 25%;
+  margin: 0 auto;
 }

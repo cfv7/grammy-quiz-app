@@ -42,56 +42,56 @@
 //1- CREATE QUESTIONS OBJECT
 // Should have questions, answer choices, and correct answer
 // Store user's correct answer count and wrong answer count., current question number e.g. 3/10
-var qBank = {
+var questionBank = {
 	questions:[
 		{
-			q: "At the 59th Annual Grammy Awards(2017), who won Record Of The Year?",
-			a: ["Twenty One Pilots", "Rihanna", "Beyonce", "Adele"],
+			question: "At the 59th Annual Grammy Awards(2017), who won Record Of The Year?",
+			answer: ["Twenty One Pilots", "Rihanna", "Beyonce", "Adele"],
 			correct: 3
 		},
 		{
-			q: "At the 59th Grammy Awards(2017), who won best new Artist?",
-			a: ["Anderson Paak", "Chance the Rapper", "Kelsea Ballerina", "The Chainsmokers"],
+			question: "At the 59th Grammy Awards(2017), who won best new Artist?",
+			answer: ["Anderson Paak", "Chance the Rapper", "Kelsea Ballerina", "The Chainsmokers"],
 			correct: 1
 		},
 		{
-			q: "What was the Best Dance / Electronic Album at the 59th Grammy Awards(2017)?",
-			a: ["Louie Vega Starring XXVIII - Louie Vega", "Skin - Flume", "Epoch - Tyco", "Barbara Barbara, We Face a Shining Future - Underworld"],
+			question: "What was the Best Dance / Electronic Album at the 59th Grammy Awards(2017)?",
+			answer: ["Louie Vega Starring XXVIII - Louie Vega", "Skin - Flume", "Epoch - Tyco", "Barbara Barbara, We Face a Shining Future - Underworld"],
 			correct: 1
 		},
 		{
-			q: "How many Grammys has Drake won?",
-			a: ["1", "2", "3", "0"],
+			question: "How many Grammys has Drake won?",
+			answer: ["1", "2", "3", "0"],
 			correct: 2
 		},
 		{
-			q: "What year did Mariah Carey win Best New Artist?",
-			a: ["1989", "1990", "1991", "1992"],
+			question: "What year did Mariah Carey win Best New Artist?",
+			answer: ["1989", "1990", "1991", "1992"],
 			correct: 1
 		},
 		{
-			q: "Which song won Michael Jackson’s first Grammy award?",
-			a: ["Thriller", "Don't Stop Til You Get Enough", "Beat It", "Billie Jean"],
+			question: "Which song won Michael Jackson's first Grammy award?",
+			answer: ["Thriller", "Don't Stop Til You Get Enough", "Beat It", "Billie Jean"],
 			correct: 1
 		},
 		{
-			q: "In this list, who has won a Grammy?",
-			a: ["Katie Perry", "Brian McKnight", "Jimi Hendrix", "Fiona Apple"],
+			question: "In this list, who has won a Grammy?",
+			answer: ["Katie Perry", "Brian McKnight", "Jimi Hendrix", "Fiona Apple"],
 			correct: 3
 		},
 		{
-			q: "In which year did Daft Punk win 4 grammy’s",
-			a: ["2007", "2008", "2011", "2013"],
+			question: "In which year did Daft Punk win 4 Grammys",
+			answer: ["2007", "2008", "2011", "2013"],
 			correct: 3
 		},
 		{
-			q: "Which score won John Williams his first Grammy? ",
-			a: ["Jaws", "Star Wars", "Raiders of the Lost Ark", "Jurassic Park"],
+			question: "Which score won John Williams his first Grammy? ",
+			answer: ["Jaws", "Star Wars", "Raiders of the Lost Ark", "Jurassic Park"],
 			correct: 0
 		},
 		{
-			q: "Who is not the top 10 grammy award winners that has won the most grammys?",
-			a: ["John Williams","Beyonce","U2","Jay-Z"],
+			question: "Who is not the top 10 Grammy award winners that has won the most Grammys?",
+			answer: ["John Williams","Beyonce","U2","Jay-Z"],
 			correct: 3
 		}
 	],
@@ -126,16 +126,15 @@ function updatePosition(state){
 // Display nextButton. [ally]
 function drawCard(state){
 	// let indexP = state.position-1; //change position from index to normal
-	$(".correctOrNot").html('');
 	$(".totals").html('');
-	$(".card").html(`<h2>${state.questions[state.position].q}</h2>`);
+	$(".card").html(`<h2>${state.questions[state.position].question}</h2>`);
 	$(".card").append(`<ol>`);
-	for (i=0; i<state.questions[state.position].a.length; i++) {
-		$(".card").append(`<li answer-id="${i}" class="js-answer-${i}">${state.questions[state.position].a[i]}</li>`);
+	for (i=0; i<state.questions[state.position].answer.length; i++) {
+		$(".card").append(`<li answer-id="${i}" class="js-answer-${i}">${state.questions[state.position].answer[i]}</li>`);
 	}
 	$(".card").append(`</ol><br>`);
 	$(".card").append(`<button class="next" type="button">NEXT</button>`);
-	$(".card").append((state.position+1) + " of " + state.questions.length);
+	$(".status").html((state.position+1) + " of " + state.questions.length);
 	console.log(state);
 }// render question card w/ possible answers & q number
 
@@ -145,7 +144,7 @@ function checkAnswer(state, position, answer){
 }
 
 function displayAnswer(state, position){
-	let className='.js-answer-'+state.questions[qBank.position].correct;
+	let className='.js-answer-'+state.questions[questionBank.position].correct;
 	$(className).addClass('js-answer-highlight');
 }
 
@@ -158,19 +157,20 @@ function displayNext(){
 function listenForClick(){
 $("body").on("click", ".card > li", function(event){
 	var getId = $(event.currentTarget).attr("answer-id");
-	if (getId == qBank.questions[qBank.position].correct) {
+	if (getId == questionBank.questions[questionBank.position].correct) {
 		console.log(true);
-		countUpCorr(qBank);
+		countUpCorr(questionBank);
 		$(event.currentTarget).append(`<h3 class="correct"> Correct!!! </h3>`);
 	}
 	else {
 		console.log(false);
-		countUpIncorr(qBank);
+		countUpIncorr(questionBank);
 		$(event.currentTarget).append(`<h3 class="incorrect"> Incorrect. </h3>`);
+		$(event.currentTarget).css('color', '#ccc');
 	}
-	$(".totals").append(`<span class="correct"> Correct: ${qBank.score.numCorr} </span> <span class="incorrect"> Incorrect: ${qBank.score.numIncorr} </span>`);
-	console.log(qBank.score.numCorr, qBank.score.numIncorr);
-	displayAnswer(qBank, getId);
+	$(".totals").append(`<span> Correct: ${questionBank.score.numCorr} </span> <span> Incorrect: ${questionBank.score.numIncorr} </span>`);
+	console.log(questionBank.score.numCorr, questionBank.score.numIncorr);
+	displayAnswer(questionBank, getId);
 	displayNext();
 	$("body").off("click", ".card > li");
 });
@@ -178,14 +178,13 @@ $("body").on("click", ".card > li", function(event){
 
 //the function below is the next button event handler.
 $('.card').on("click", '.next', function(event){
-	if(qBank.position<qBank.questions.length-1){
-	updatePosition(qBank);
-	drawCard(qBank);
+	if(questionBank.position<questionBank.questions.length-1){
+	updatePosition(questionBank);
+	drawCard(questionBank);
 	listenForClick();
 	} else {
-		$('.correctOrNot').html('');  //clear correct or not div
 		$('.totals').html('');        //clear points
-		$('.card').html(`<h1>GAME OVER!</h1><p>You got ${qBank.score.numCorr} correct!</p>`);
+		$('.card').html(`<div class="finalcard"><h1>Thanks for playing!</h1><img src="grammy_logo.png" alt="Grammy Award"><p>You got ${questionBank.score.numCorr} correct!</p></div>`);
 		$('.card').append(`<button class="restartButton"> Restart Quiz </button> `);
 		$(".card").on('click', ".restartButton", function(event){
 			restart();
@@ -196,11 +195,10 @@ $('.card').on("click", '.next', function(event){
 
 // reset card order + scores
 function restart(){
-	qBank.position = 0;
-	qBank.score = {numCorr:0, numIncorr:0};
+	questionBank.position = 0;
+	questionBank.score = {numCorr:0, numIncorr:0};
 	splashScreen();
 	listenForClick();
-	// console.log(qBank.questions.postion, qBank.questions.score)
 }
 
 //splashScreen display
@@ -209,7 +207,7 @@ function splashScreen(){
 	$('.card').append(`<button class="splashButton"> Start Quiz </button> `);
 }
 $(".card").on('click', ".splashButton", function(event){
-	drawCard(qBank);
+	drawCard(questionBank);
 });
 
 //Runs the game
